@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Employee List</title>
+  <style>
+    body {
+      background: linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%);
+    }
+
+    h1 {
+      font-size: 40px;
+      color: #1d3557;
+    }
+
+    table.employee-table {
+      border: 1px solid #000;
+      background-color: transparent;
+      font-size: 18px;
+      width: 80%;
+      margin: 0 auto;
+    }
+
+    table.employee-table th {
+      color: #1d3557;
+      font-size: 30px;
+    }
+
+    table.employee-table td {
+      border: 1px solid #000;
+      padding: 8px;
+      text-align: center;
+    }
+
+    table.employee-table td a {
+      text-decoration: none;
+      font-size: 18px;
+      color: #1d3557;
+    }
+
+    a.add-button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #1d3557;
+      color: #fff;
+      text-decoration: none;
+      border: 1px solid #1d3557;
+      border-radius: 4px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Employee List</h1>
+  <table class="employee-table">
+    <thead>
+      <tr>
+        <th>Employee Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for employee in employees %}
+      <tr>
+        <td>
+          <a href="{% url 'employee_details' employee.id %}">{{ employee.name }}</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href="{% url 'add_employee' %}" class="add-button">Add Employee</a>
+</body>
+
+</html>

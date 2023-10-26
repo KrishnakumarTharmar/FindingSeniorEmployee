@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Employee Details</title>
+    <style>
+        body {
+            background: linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%);
+        }
+
+        h1 {
+            font-size: 40px;
+            color: #1d3557;
+        }
+
+        p {
+            font-size: 18px;
+            color: #1d3557;
+        }
+
+        a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #1d3557;
+            color: #fff;
+            text-decoration: none;
+            border: 1px solid #1d3557;
+            border-radius: 4px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Employee Details</h1>
+    <p>Name: {{ employee.name }}</p>
+    <p>Department: {{ employee.department }}</p>
+    <p>Join Year: {{ employee.join_year }}</p>
+    <a href="{% url 'edit_employee' employee.id %}">Edit</a>
+    <a href="{% url 'delete_employee' employee.id %}">Delete</a>
+    <a href="{% url 'employee_list' %}">Back to Employee List</a>
+</body>
+
+</html>

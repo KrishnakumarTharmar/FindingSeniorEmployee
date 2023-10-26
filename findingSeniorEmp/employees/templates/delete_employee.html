@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Delete Employee</title>
+  <style>
+    body {
+      background: linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%);
+    }
+
+    h1 {
+      font-size: 40px;
+      color: #1d3557;
+    }
+
+    p {
+      font-size: 18px;
+      color: #1d3557;
+    }
+
+    a,
+    button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #1d3557;
+      color: #fff;
+      text-decoration: none;
+      border: 1px solid #1d3557;
+      border-radius: 4px;
+      text-align: center;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Delete Employee</h1>
+
+  <p>Are you sure you want to delete {{ employee.name }}?</p>
+
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Delete</button>
+  </form>
+
+  <a href="{% url 'employee_list' %}">Cancel</a>
+</body>
+
+</html>

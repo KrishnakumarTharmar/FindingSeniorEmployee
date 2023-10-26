@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Employee Details</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <style>
+    .fixed-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Employee Details</h1>
+
+    <div class="department">
+      <h2>Office Department</h2>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Employee Name</th>
+            <th>Join Year</th>
+          </tr>
+        </thead>
+        <tbody id="officeDetails">
+          <!-- Office department employee details will be displayed here -->
+        </tbody>
+      </table>
+    </div>
+
+    <div class="department">
+      <h2>Plant Department</h2>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Employee Name</th>
+            <th>Join Year</th>
+          </tr>
+        </thead>
+        <tbody id="plantDetails">
+          <!-- Plant department employee details will be displayed here -->
+        </tbody>
+      </table>
+    </div>
+
+    <div class="department">
+      <h2>Site Department</h2>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Employee Name</th>
+            <th>Join Year</th>
+          </tr>
+        </thead>
+        <tbody id="siteDetails">
+          <!-- Site department employee details will be displayed here -->
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Senior Employees</h2>
+    <ul id="seniorEmployeesList" class="list-group">
+      <!-- Senior employees will be displayed here -->
+    </ul>
+  </div>
+
+  <script>
+    const departmentData = {
+      Office: {},
+      Plant: {},
+      Site: {},
+    };
+
+    // Function to add a new employee
+    function addEmployee() {
+      const name = prompt("Enter employee name:");
+      if (name === null || name === "") return; // Cancelled or empty input
+
+      const department = prompt(
+        `Enter department for ${name} (Office, Plant, or Site):`
+      );
+      if (
+        department === null ||
+        department === "" ||
+        !["Office", "Plant", "Site"].includes(department)
+      )
+        return; // Cancelled, empty input, or invalid department
+
+      const joinYear = prompt(`Enter join year for ${name}:`);
+      if (joinYear === null || joinYear === "") return; // Cancelled or empty input
+
+      const departmentTable = document.getElementById(
+        `${department.toLowerCase()}Details`
+      );
+      const row = createEmployeeRow(name, joinYear);
+      departmentTable.appendChild(row);
+      departmentData[department][name] = parseInt(joinYear);
+
+      // Recalculate senior employees and update the list
+      updateSeniorEmployeesList();
+    }
+
+    // Function to create a new employee row
+    function createEmployeeRow(name, joinYear) {
+      const row = document.createElement("tr");
+      const cell1 = document.createElement("td");
+      cell1.textContent = name;
+      const cell2 = document.createElement("td");
+      cell2.textContent = joinYear;
+      row.appendChild(cell1);
+      row.appendChild(cell2);
+      return row;
+    }
+
+    // Function to find the overall senior employee
+    function findOverallSeniorEmployee() {
+      let overallSenior = null;
+      let overallSeniorJoinYear = 9999;
+
+      for (const department in departmentData) {
+        for (const employee in departmentData[department]) {
+          const joinYear = departmentData[department][employee];
+          if (joinYear < overallSeniorJoinYear) {
+            overallSenior = employee;
+            overallSeniorJoinYear = joinYear;
+          }
+        }
+      }
+
+      return { overallSenior, overallSeniorJoinYear };
+    }
+
+    // Function to update the list of senior employees and overall senior employee
+    function updateSeniorEmployeesList() {
+      const seniorEmployees = {};
+
+      for (const department in departmentData) {
+        const employees = departmentData[department];
+        let seniorEmployee = null;
+        let seniorJoinYear = 9999;
+
+        for (const employee in employees) {
+          const joinYear = employees[employee];
+          if (joinYear < seniorJoinYear) {
+            seniorEmployee = employee;
+            seniorJoinYear = joinYear;
+          }
+        }
+
+        seniorEmployees[
+          department
+        ] = `${seniorEmployee} (Joined in ${seniorJoinYear})`;
+      }
+
+      const { overallSenior, overallSeniorJoinYear } =
+        findOverallSeniorEmployee();
+
+      const seniorEmployeesList = document.getElementById(
+        "seniorEmployeesList"
+      );
+      seniorEmployeesList.innerHTML = "";
+
+      for (const department in seniorEmployees) {
+        const listItem = document.createElement("li");
+        listItem.classList.add("list-group-item");
+        listItem.innerHTML = `Senior Employee in ${department}: ${seniorEmployees[department]}`;
+        seniorEmployeesList.appendChild(listItem);
+      }
+
+      const overallSeniorElement = document.createElement("li");
+      overallSeniorElement.classList.add("list-group-item");
+      overallSeniorElement.innerHTML = `Overall Senior Employee: ${overallSenior} (Joined in ${overallSeniorJoinYear})`;
+      seniorEmployeesList.appendChild(overallSeniorElement);
+    }
+  </script>
+
+  <button onclick="addEmployee()" class="btn btn-primary fixed-button">
+    Add Employee
+  </button>
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
